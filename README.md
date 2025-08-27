@@ -1,4 +1,5 @@
-# Netflip: A modern, responsive React web application for browsing, searching, and favoriting movies, leveraging the The Movie Database (TMDb) API. This project features a sleek dark theme, intuitive navigation, and a user-friendly interface designed for movie discovery and favorites management.
+# Netflip
+## A modern, responsive React web application for browsing, searching, and favoriting movies, leveraging the The Movie Database (TMDb) API. This project features a sleek dark theme, intuitive navigation, and a user-friendly interface designed for movie discovery and favorites management.
 
 # Features
 
