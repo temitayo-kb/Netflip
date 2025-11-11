@@ -22,7 +22,7 @@ const Home = () => {
   };
 
   const handleMoreInfoClick = () => {
-    // TODO: Navigate to show details page when implemented
+    // TODO= Navigate to show details page when implemented
     console.log("More info for:", heroShow?.name);
   };
 
