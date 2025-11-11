@@ -1,0 +1,259 @@
+.hero {
+  position: relative;
+}
+
+.banner-img {
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 75%);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 75%);
+}
+
+.banner-img.loading {
+  display: none;
+}
+
+.banner-img.loaded {
+  display: block;
+  animation: fadeIn 0.8s ease-in;
+}
+
+.hero-caption {
+  position: absolute;
+  width: 100%;
+  padding-left: 4%;
+  bottom: 0;
+}
+
+/* Logo Image */
+.caption-img {
+  width: 27%;
+  max-width: 420px;
+  margin-bottom: 10px;
+}
+
+.logo-img {
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+/* Title Text (fallback when no logo) */
+.hero-title-text {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+  max-width: 600px;
+  line-height: 1.1;
+}
+
+/* Overview/Description */
+.hero-overview {
+  max-width: 500px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+  color: #e5e5e5;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 50px;
+}
+
+.hero-btns .btn img {
+  width: 20px;
+}
+
+.hero-btns .btn {
+  border: 0;
+  outline: 0;
+  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hero-btns .dark-btn {
+  padding: 12px 18px;
+  color: #ffff;
+  background: #6d6d6eb3;
+}
+
+.hero-btns .btn:hover {
+  background: #ffffffbf;
+  transform: scale(1.05);
+}
+
+.hero-btns .btn.dark-btn:hover {
+  background: #6d6d6e66;
+}
+
+/* Hero Loading State */
+.hero-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+
+.hero-loading .loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top: 5px solid #e50914;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Hero Skeleton */
+.hero-skeleton {
+  width: 100%;
+  height: 80vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.hero-skeleton-caption {
+  position: absolute;
+  width: 100%;
+  padding-left: 4%;
+  bottom: 0;
+  z-index: 1;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-btns {
+    margin-bottom: 30px;
+  }
+  .caption-img {
+    margin-bottom: 5px;
+    width: 20%;
+  }
+  .hero-title-text {
+    font-size: 3rem;
+  }
+  .hero-overview {
+    font-size: 1rem;
+    max-width: 450px;
+  }
+  .hero-btns .btn img {
+    width: 18px;
+  }
+  .hero-btns .btn {
+    padding: 8px 16px;
+    gap: 10px;
+    font-size: 12px;
+  }
+  .hero-skeleton {
+    height: 60vh;
+  }
+}
+
+@media (max-width: 800px) {
+  .hero-caption {
+    padding-left: 4%;
+  }
+  .hero-skeleton-caption {
+    padding-left: 4%;
+  }
+  .caption-img {
+    margin-bottom: 10px;
+    width: 17%;
+  }
+  .hero-title-text {
+    font-size: 2.5rem;
+  }
+  .hero-overview {
+    font-size: 0.9rem;
+    max-width: 400px;
+    margin-bottom: 15px;
+  }
+  .hero-btns .btn img {
+    width: 14px;
+  }
+  .hero-btns .btn {
+    padding: 5px 12px;
+    gap: 6px;
+    font-size: 10px;
+  }
+  .hero-skeleton {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 500px) {
+  .caption-img {
+    margin-bottom: 10px;
+    width: 15%;
+  }
+  .hero-title-text {
+    font-size: 1.8rem;
+    max-width: 300px;
+  }
+  .hero-overview {
+    font-size: 0.8rem;
+    max-width: 300px;
+  }
+  .hero-btns .btn img {
+    width: 10px;
+  }
+  .hero-btns .btn {
+    padding: 5px 8px;
+    gap: 5px;
+    font-size: 8px;
+  }
+  .hero-skeleton {
+    height: 40vh;
+  }
+}

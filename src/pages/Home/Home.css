@@ -1,0 +1,23 @@
+.home {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.more-cards {
+  padding-left: 4%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 800px) {
+  .more-cards {
+    padding-left: 4%;
+  }
+}

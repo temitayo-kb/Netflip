@@ -1,0 +1,629 @@
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+/* Modal Container */
+.modal-container {
+  background-color: #181818;
+  border-radius: 6px;
+  max-width: 850px;
+  width: 100%;
+  position: relative;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar */
+.modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Loading State */
+.modal-loading {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #333;
+  border-top-color: #e50914;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hero Section */
+.modal-hero {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 6px 6px 0 0;
+}
+
+.modal-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(24, 24, 24, 1) 0%,
+    rgba(24, 24, 24, 0.8) 20%,
+    rgba(24, 24, 24, 0.4) 50%,
+    rgba(24, 24, 24, 0) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 48px;
+}
+
+.modal-hero-content {
+  width: 100%;
+}
+
+.modal-title {
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+}
+
+.modal-hero-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Button Styles */
+.modal-btn {
+  padding: 9px 32px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.modal-btn-play {
+  background-color: #fff;
+  color: #000;
+}
+
+.modal-btn-play:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+  transform: scale(1.05);
+}
+
+.modal-btn-play:active {
+  transform: scale(1);
+}
+
+/* Play Button Icon */
+.modal-btn-play .btn-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) saturate(100%);
+}
+
+/* Add Button */
+.modal-btn-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background-color: rgba(42, 42, 42, 0.6);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.modal-btn-circle:hover {
+  border-color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.modal-btn-circle:active {
+  transform: scale(1.05);
+}
+
+.modal-btn-circle.favorited {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+
+/* Add Button Icon */
+.modal-btn-circle .add-icon {
+  width: 27px;
+  height: 30px;
+  transition: transform 0.2s ease;
+}
+
+.modal-btn-circle:hover .add-icon {
+  transform: scale(1.1);
+}
+
+/* Checkmark for hero button */
+.check-icon {
+  font-size: 24px;
+  color: #fff;
+}
+
+.modal-btn-list {
+  background-color: rgba(109, 109, 110, 0.7);
+  color: #fff;
+}
+
+.modal-btn-list:hover {
+  background-color: rgba(109, 109, 110, 0.5);
+}
+
+.play-icon,
+.plus-icon {
+  font-size: 1.2rem;
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(24, 24, 24, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background-color: rgba(24, 24, 24, 0.95);
+}
+
+/* Content Section */
+.modal-content {
+  padding: 0 35px 48px;
+  color: #fff;
+}
+
+/* Info Grid */
+.modal-info-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+/* Left Column */
+.modal-info-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+.meta-rating {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  border-radius: 2px;
+}
+
+.meta-separator {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.modal-overview {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+/* Right Column */
+.modal-info-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-item {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.info-label {
+  color: rgba(255, 255, 255, 0.5);
+  display: inline;
+  margin-right: 8px;
+}
+
+.info-value {
+  color: rgba(255, 255, 255, 0.9);
+  display: inline;
+}
+
+.more-link {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.more-link:hover {
+  text-decoration: underline;
+}
+
+/* Recommendations Section */
+.modal-recommendations {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 30px;
+  margin-bottom: 40px;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.recommendation-card {
+  background-color: #2f2f2f;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.recommendation-card:hover {
+  transform: scale(1.02);
+}
+
+.rec-poster {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rec-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rec-poster-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background: linear-gradient(
+    to top,
+    rgba(47, 47, 47, 0.9) 0%,
+    rgba(47, 47, 47, 0) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+}
+
+.rec-logo {
+  max-width: 80%;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.rec-title-fallback {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9), -1px -1px 2px rgba(0, 0, 0, 0.8),
+    1px -1px 2px rgba(0, 0, 0, 0.8), -1px 1px 2px rgba(0, 0, 0, 0.8);
+  line-height: 1.2;
+  max-width: 90%;
+}
+
+.rec-info {
+  padding: 12px;
+}
+
+.rec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.rec-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Recommendation Buttons */
+.rec-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background-color: rgba(42, 42, 42, 0.6);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.rec-btn:hover {
+  border-color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.rec-btn.favorited {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+
+.rec-play {
+  padding-left: 2px;
+}
+
+.rec-add {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.rec-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.rec-btn .btn-icon {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+}
+
+.rec-btn .add-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+/* Checkmark for recommendation buttons */
+.check-icon-small {
+  font-size: 18px;
+  color: #fff;
+}
+
+.rec-rating {
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  border-radius: 2px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.rec-year {
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.rec-meta .meta-separator {
+  margin-top: 10px;
+}
+
+.rec-overview {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* About Section */
+.modal-about {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 30px;
+}
+
+.about-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.about-label {
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.about-value {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .modal-info-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .recommendations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .modal-hero {
+    height: 350px;
+  }
+
+  .modal-content {
+    padding: 0 24px 24px;
+  }
+
+  .modal-hero-overlay {
+    padding: 0 24px 24px;
+  }
+
+  .modal-title {
+    font-size: 2rem;
+  }
+
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-hero-buttons {
+    gap: 12px;
+  }
+
+  .modal-btn-play {
+    padding: 10px 24px;
+    font-size: 1rem;
+    min-width: 100px;
+  }
+
+  .modal-btn-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .modal-btn-play .btn-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .modal-btn-circle .add-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .check-icon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-hero {
+    height: 250px;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-content {
+    padding: 0 16px 16px;
+  }
+
+  .modal-hero-overlay {
+    padding: 0 16px 16px;
+  }
+
+  .modal-hero-buttons {
+    gap: 8px;
+  }
+
+  .modal-btn-play {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    min-width: 90px;
+  }
+
+  .modal-btn-circle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .check-icon {
+    font-size: 18px;
+  }
+}
