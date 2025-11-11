@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_CONFIG } from "../services/Config";
+import { API_CONFIG } from "../services/config";
 import { useFavorites } from "./useFavorites";
 
 export const useCardInteractions = ({ fromRoute }) => {

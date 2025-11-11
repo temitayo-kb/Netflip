@@ -4,7 +4,7 @@ import play_icon from "../../assets/play_icon.png";
 import info_icon from "../../assets/info_icon.png";
 import TitleCard from "../TitleCard/TitleCard";
 import DetailsModal from "../DetailsModal/DetailsModal";
-import { API_CONFIG } from "../../services/Config";
+import { API_CONFIG } from "../../services/config";
 
 const IMAGE_BASE_URL = API_CONFIG.TMDB_IMAGE_BASE_URL;
 

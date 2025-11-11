@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./MediaPage.css";
-import Navbar from "../../components/NavBar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import TitleCard from "../TitleCard/TitleCard";
 import Footer from "../../components/Footer/Footer";
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import { API_CONFIG } from "../../services/Config";
+import { API_CONFIG } from "../../services/config";
 import { useFavorites } from "../../hooks/useFavorites";
 import { useModalData } from "../../hooks/useModalData";
 import {

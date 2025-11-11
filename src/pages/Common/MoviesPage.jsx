@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import MediaPage from "../../components/MediaPage/MediaPage";
 import { useMediaCollection } from "../../hooks/useMediaCollection";
-import { useProfile } from "../../hooks/useProfile"; // Add this import
+import { useProfile } from "../../hooks/useProfile";
 import placeholder_poster from "../../assets/placeholder_poster.avif";
 
 const Movies = () => {

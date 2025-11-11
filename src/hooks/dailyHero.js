@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useProfile } from "./useProfile";
-import { API_CONFIG } from "../services/Config";
+import { API_CONFIG } from "../services/config";
 
 const API_KEY = API_CONFIG.API_KEY;
 const BASE_URL = API_CONFIG.BASE_URL;

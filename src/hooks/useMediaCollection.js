@@ -8,7 +8,7 @@ import {
   buildDiscoverMovieUrl,
   buildDiscoverTVUrl,
   buildSearchUrl,
-} from "../services/Config";
+} from "../services/config";
 
 const API_KEY = API_CONFIG.API_KEY;
 const BASE_URL = API_CONFIG.BASE_URL;

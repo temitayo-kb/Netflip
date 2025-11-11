@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import MediaPage from "../../components/MediaPage/MediaPage";
 import back_arrow_icon from "../../assets/back_arrow_icon.png";
 import placeholderImage from "../../assets/placeholder_poster.avif";
-import { API_CONFIG } from "../../services/Config";
+import { API_CONFIG } from "../../services/config";
 
 const API_KEY = API_CONFIG.API_KEY;
 const BASE_URL = API_CONFIG.BASE_URL;

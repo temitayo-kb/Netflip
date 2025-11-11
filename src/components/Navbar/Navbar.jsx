@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
-import logo from "../../assets/NEtflip_logo.png";
+import logo from "../../assets/Netflip_logo.png";
 import search_icon from "../../assets/search_icon.svg";
 import caret_icon from "../../assets/caret_icon.svg";
 import { avatars } from "../../assets/Avatars/";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
-import { API_CONFIG, buildMovieUrl, buildTVUrl } from "../../services/Config";
+import { API_CONFIG, buildMovieUrl, buildTVUrl } from "../../services/config";
 import { useCardInteractions } from "../../hooks/useCardInteractions";
 import { useProfile } from "../../hooks/useProfile";
 import { formatRuntime, formatContentRating } from "../../services/formatters";

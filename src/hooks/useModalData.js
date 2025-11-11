@@ -1,7 +1,5 @@
-// hooks/useModalData.js
-
 import { useState, useEffect } from "react";
-import { API_CONFIG, buildDetailsUrl } from "../services/Config";
+import { API_CONFIG, buildDetailsUrl } from "../services/config";
 
 export const useModalData = ({ isOpen, contentId, mediaType }) => {
   const [details, setDetails] = useState(null);
