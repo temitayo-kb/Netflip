@@ -42,12 +42,18 @@ const Home = () => {
         {/* Movies Section */}
         <TitleCard
           layout="carousel"
+          category="popular"
+          title="Popular on Netflip"
+          mediaType="movie"
+        />
+        <TitleCard
+          layout="carousel"
           title={"Blockbuster Films"}
           category={"top_rated"}
           mediaType="movie"
         />
         <TitleCard
-          title={"Only On Netflix"}
+          title={"Only On Netflip"}
           category={"popular"}
           mediaType="movie"
         />

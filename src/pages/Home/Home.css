@@ -4,6 +4,9 @@
 
 .more-cards {
   padding-left: 4%;
+  margin-top: -200px;
+  position: relative;
+  z-index: 10;
 }
 
 @keyframes fadeIn {
@@ -16,8 +19,21 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .more-cards {
+    margin-top: -150px;
+  }
+}
+
 @media (max-width: 800px) {
   .more-cards {
     padding-left: 4%;
+    margin-top: -100px;
+  }
+}
+
+@media (max-width: 500px) {
+  .more-cards {
+    margin-top: -80px;
   }
 }

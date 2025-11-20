@@ -94,13 +94,6 @@ const HeroCard = ({ heroShow, loading, onPlayClick, mediaType = "tv" }) => {
               </div>
             </>
           )}
-          {/* TitleCards always renders, never unmounts */}
-          <TitleCard
-            layout="carousel"
-            category="popular"
-            title="Popular on Netflix"
-            mediaType="movie"
-          />
         </div>
       </div>
 

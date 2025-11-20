@@ -71,7 +71,7 @@ const Profiles = () => {
   if (loading || !isReady) {
     return (
       <div className="profiles">
-        <h1>Loading profiles...</h1>
+        <h1>Loading Profiles...</h1>
       </div>
     );
   }
