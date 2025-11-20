@@ -5,14 +5,13 @@
   justify-content: center;
   height: 100vh;
   background-color: #000;
-
   color: #fff;
   text-align: center;
 }
 
 .profiles h1 {
   font-size: 3.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   font-weight: 700;
 }
 
