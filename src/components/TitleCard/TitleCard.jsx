@@ -8,6 +8,7 @@ import { useCache } from "../../contexts/CacheContext";
 import { formatRuntime, formatContentRating } from "../../services/formatters";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import dropdown from "../../assets/chevron_down.svg";
+import placeholder_poster from "../../assets/placeholder_poster.avif";
 import "./TitleCard.css";
 
 const API_KEY = API_CONFIG.API_KEY;
@@ -298,7 +299,10 @@ const TitleCard = ({
             ? card.name || card.original_name
             : card.title || card.original_title;
 
-        const imageUrl = `${API_CONFIG.TMDB_IMAGE_BASE_URL}${card.backdrop_path}`;
+        // const imageUrl = `${API_CONFIG.TMDB_IMAGE_BASE_URL}${card.backdrop_path}`;
+        const imageUrl = card.backdrop_path
+          ? `${API_CONFIG.TMDB_IMAGE_BASE_URL}${card.backdrop_path}`
+          : placeholder_poster;
 
         const isHovered = hoveredCard === card.id;
 

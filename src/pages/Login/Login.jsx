@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../../hooks/useProfile";
 import "./Login.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/Netflip_logo.png";
 import { login, signup } from "../../firebase";
 import netflix_spinner from "../../assets/netflix_spinner.gif";
 
@@ -97,7 +97,7 @@ const Login = () => {
         <div className="form-switch">
           {signState === "Sign In" ? (
             <p>
-              New to Netflix?
+              New to Netflip?
               <span
                 onClick={() => {
                   setSignState("Sign Up");

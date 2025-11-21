@@ -18,14 +18,6 @@
   border-radius: 10px;
 }
 
-.player-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  margin-top: 10px;
-}
-
 .loading,
 .error-message {
   color: white;

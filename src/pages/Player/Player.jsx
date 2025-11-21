@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Player.css";
 import back_arrow_icon from "../../assets/back_arrow_icon.png";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { formatReleaseDate } from "../../services/formatters";
 
 const Player = () => {
   const { id } = useParams();
@@ -104,15 +103,6 @@ const Player = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       ></iframe>
-      <div className="player-info">
-        <p>
-          <strong>Published:</strong> {formatReleaseDate(apiData.published_at)}
-        </p>
-        <p>
-          <strong>Content Type:</strong>{" "}
-          {mediaType === "movie" ? "Movie" : "TV Show"}
-        </p>
-      </div>
     </div>
   );
 };
