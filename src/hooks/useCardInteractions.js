@@ -2,10 +2,12 @@ import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_CONFIG } from "../services/config";
 import { useFavorites } from "./useFavorites";
+import { useCache } from "../contexts/CacheContext";
 
 export const useCardInteractions = ({ fromRoute }) => {
   const navigate = useNavigate();
   const { isFavorited, toggleFavorite } = useFavorites();
+  const { getLogo, setLogo, getDetails, setDetails } = useCache();
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [cardDetails, setCardDetails] = useState({});
@@ -21,10 +23,20 @@ export const useCardInteractions = ({ fromRoute }) => {
   const hoverTimeoutRef = useRef(null);
   const cardRefs = useRef({});
 
-  // Fetch card logo
+  // Fetch card logo with cache
   const fetchCardLogo = useCallback(
     async (cardId, cardMediaType) => {
       if (loadingLogos[cardId] || cardLogos[cardId]) return;
+
+      // Check cache first
+      const cachedLogo = getLogo(cardId, cardMediaType);
+      if (cachedLogo) {
+        setCardLogos((prev) => ({
+          ...prev,
+          [cardId]: cachedLogo,
+        }));
+        return;
+      }
 
       setLoadingLogos((prev) => ({ ...prev, [cardId]: true }));
 
@@ -46,10 +58,16 @@ export const useCardInteractions = ({ fromRoute }) => {
         const logo = englishLogo || logos[0];
 
         if (logo) {
+          const logoPath = logo.file_path;
+
+          // Update state
           setCardLogos((prev) => ({
             ...prev,
-            [cardId]: logo.file_path,
+            [cardId]: logoPath,
           }));
+
+          // Save to cache
+          setLogo(cardId, cardMediaType, logoPath);
         }
       } catch (error) {
         console.warn(
@@ -60,65 +78,84 @@ export const useCardInteractions = ({ fromRoute }) => {
         setLoadingLogos((prev) => ({ ...prev, [cardId]: false }));
       }
     },
-    [cardLogos, loadingLogos]
+    [cardLogos, loadingLogos, getLogo, setLogo]
   );
 
-  // Fetch card details (genres, rating, etc.)
-  const fetchCardDetails = useCallback(async (cardId, cardMediaType) => {
-    setLoadingDetails((prev) => ({ ...prev, [cardId]: true }));
+  // Fetch card details with cache
+  const fetchCardDetails = useCallback(
+    async (cardId, cardMediaType) => {
+      // Check cache first
+      const cachedDetails = getDetails(cardId, cardMediaType);
+      if (cachedDetails) {
+        setCardDetails((prev) => ({
+          ...prev,
+          [cardId]: cachedDetails,
+        }));
+        return;
+      }
 
-    try {
-      const baseUrl = `https://api.themoviedb.org/3/${cardMediaType}/${cardId}`;
-      const appendParams =
-        cardMediaType === "tv"
-          ? "?append_to_response=content_ratings"
-          : "?append_to_response=release_dates";
-      const url = baseUrl + appendParams;
+      setLoadingDetails((prev) => ({ ...prev, [cardId]: true }));
 
-      const response = await fetch(url, API_CONFIG.TMDB_AUTH_HEADER);
-      const data = await response.json();
+      try {
+        const baseUrl = `https://api.themoviedb.org/3/${cardMediaType}/${cardId}`;
+        const appendParams =
+          cardMediaType === "tv"
+            ? "?append_to_response=content_ratings"
+            : "?append_to_response=release_dates";
+        const url = baseUrl + appendParams;
 
-      let contentRating = "NR";
-      if (cardMediaType === "tv") {
-        const usRating = data.content_ratings?.results?.find(
-          (r) => r.iso_3166_1 === "US"
-        );
-        contentRating = usRating?.rating || "NR";
-      } else {
-        const usRelease = data.release_dates?.results?.find(
-          (r) => r.iso_3166_1 === "US"
-        );
+        const response = await fetch(url, API_CONFIG.TMDB_AUTH_HEADER);
+        const data = await response.json();
 
-        if (usRelease?.release_dates) {
-          for (const releaseDate of usRelease.release_dates) {
-            if (
-              releaseDate.certification &&
-              releaseDate.certification.trim() !== ""
-            ) {
-              contentRating = releaseDate.certification;
-              break;
+        let contentRating = "NR";
+        if (cardMediaType === "tv") {
+          const usRating = data.content_ratings?.results?.find(
+            (r) => r.iso_3166_1 === "US"
+          );
+          contentRating = usRating?.rating || "NR";
+        } else {
+          const usRelease = data.release_dates?.results?.find(
+            (r) => r.iso_3166_1 === "US"
+          );
+
+          if (usRelease?.release_dates) {
+            for (const releaseDate of usRelease.release_dates) {
+              if (
+                releaseDate.certification &&
+                releaseDate.certification.trim() !== ""
+              ) {
+                contentRating = releaseDate.certification;
+                break;
+              }
             }
           }
         }
-      }
 
-      setCardDetails((prev) => ({
-        ...prev,
-        [cardId]: {
+        const details = {
           genres: data.genres || [],
           rating: data.vote_average || 0,
           contentRating: contentRating,
           runtime: data.runtime || null,
           numberOfSeasons: data.number_of_seasons || null,
           backdropPath: data.backdrop_path || null,
-        },
-      }));
-    } catch (error) {
-      console.error("Error fetching card details:", error);
-    } finally {
-      setLoadingDetails((prev) => ({ ...prev, [cardId]: false }));
-    }
-  }, []);
+        };
+
+        // Update state
+        setCardDetails((prev) => ({
+          ...prev,
+          [cardId]: details,
+        }));
+
+        // Save to cache
+        setDetails(cardId, cardMediaType, details);
+      } catch (error) {
+        console.error("Error fetching card details:", error);
+      } finally {
+        setLoadingDetails((prev) => ({ ...prev, [cardId]: false }));
+      }
+    },
+    [getDetails, setDetails]
+  );
 
   // Handle card hover with positioning logic
   const handleCardHover = useCallback(

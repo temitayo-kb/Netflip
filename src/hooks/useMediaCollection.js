@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useProfile } from "./useProfile";
+import { useCache } from "../contexts/CacheContext";
 import {
   API_CONFIG,
   buildGenreUrl,
@@ -16,6 +17,7 @@ const BASE_URL = API_CONFIG.BASE_URL;
 export const useMediaCollection = ({ mediaType = "movie" }) => {
   const { activeProfile } = useProfile();
   const isKidsProfile = activeProfile?.isKids || false;
+  const { getApiData, setApiData } = useCache();
 
   const [genres, setGenres] = useState([]);
   const [items, setItems] = useState([]);
@@ -32,12 +34,27 @@ export const useMediaCollection = ({ mediaType = "movie" }) => {
   // Fetch genres for the media type
   const fetchGenres = useCallback(async () => {
     try {
+      // Check cache for genres
+      // const genreCacheKey = `${mediaType}:genres${
+      //   isKidsProfile ? ":kids" : ""
+      // }`;
+      const cachedGenres = getApiData(
+        mediaType,
+        `genres${isKidsProfile ? ":kids" : ""}`
+      );
+
+      if (cachedGenres) {
+        setGenres(cachedGenres);
+        return;
+      }
+
       const response = await fetch(
         buildGenreUrl(mediaType),
         API_CONFIG.TMDB_AUTH_HEADER
       );
       const data = await response.json();
 
+      let genresData;
       // Filter genres for kids profiles
       if (isKidsProfile) {
         const kidsGenreIds =
@@ -45,17 +62,24 @@ export const useMediaCollection = ({ mediaType = "movie" }) => {
             ? [10762, 10751] // Kids, Family
             : [10751, 16]; // Family, Animation
 
-        const filteredGenres = data.genres.filter((genre) =>
+        genresData = data.genres.filter((genre) =>
           kidsGenreIds.includes(genre.id)
         );
-        setGenres(filteredGenres);
       } else {
-        setGenres(data.genres);
+        genresData = data.genres;
       }
+
+      setGenres(genresData);
+      // Cache genres
+      setApiData(
+        mediaType,
+        `genres${isKidsProfile ? ":kids" : ""}`,
+        genresData
+      );
     } catch (error) {
       console.error(`Error fetching ${mediaType} genres:`, error);
     }
-  }, [mediaType, isKidsProfile]);
+  }, [mediaType, isKidsProfile, getApiData, setApiData]);
 
   // Build URL with kids profile support
   const buildItemUrl = useCallback(
@@ -118,11 +142,24 @@ export const useMediaCollection = ({ mediaType = "movie" }) => {
     [mediaType, isKidsProfile]
   );
 
-  // Fetch items (movies or TV shows) - Multiple pages
+  // Fetch items (movies or TV shows) - Multiple pages with cache
   const fetchItems = useCallback(
     async (genreId = "popular") => {
       try {
         setLoading(true);
+
+        // Check cache first
+        const cacheKey = `${genreId}${
+          isKidsProfile ? ":kids" : ""
+        }:pages${PAGES_TO_FETCH}`;
+        const cachedItems = getApiData(mediaType, cacheKey);
+
+        if (cachedItems) {
+          setItems(cachedItems);
+          setLoading(false);
+          return;
+        }
+
         const baseUrl = buildItemUrl(genreId);
 
         // Fetch multiple pages in parallel
@@ -151,6 +188,9 @@ export const useMediaCollection = ({ mediaType = "movie" }) => {
         );
 
         setItems(uniqueItems);
+
+        // Cache the results with page count in key
+        setApiData(mediaType, cacheKey, uniqueItems);
       } catch (error) {
         console.error(`Error fetching ${mediaType}:`, error);
         setItems([]);
@@ -158,10 +198,17 @@ export const useMediaCollection = ({ mediaType = "movie" }) => {
         setLoading(false);
       }
     },
-    [mediaType, buildItemUrl]
+    [
+      mediaType,
+      buildItemUrl,
+      isKidsProfile,
+      getApiData,
+      setApiData,
+      PAGES_TO_FETCH,
+    ]
   );
 
-  // Search items - Also fetch multiple pages
+  // Search items - Also fetch multiple pages (no cache for search results)
   const searchItems = useCallback(
     async (query) => {
       try {
@@ -255,7 +302,7 @@ export const useMediaCollection = ({ mediaType = "movie" }) => {
     setItems([]); // Clear items to show skeletons immediately
     setActiveGenreName(getGenreName(genreId)); // Update title immediately
     setIsDropdownOpen(false);
-    fetchItems(genreId); // Fetch new data
+    fetchItems(genreId); // Fetch new data (will use cache if available)
   };
 
   const toggleDropdown = () => {

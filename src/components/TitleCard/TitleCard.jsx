@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { API_CONFIG, buildMovieUrl, buildTVUrl } from "../../services/config";
 import { useCardInteractions } from "../../hooks/useCardInteractions";
 import { useProfile } from "../../hooks/useProfile";
+import { useCache } from "../../contexts/CacheContext";
 import { formatRuntime, formatContentRating } from "../../services/formatters";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import dropdown from "../../assets/chevron_down.svg";
@@ -29,6 +30,7 @@ const TitleCard = ({
 }) => {
   const { activeProfile } = useProfile();
   const isKidsProfile = activeProfile?.isKids || false;
+  const { getApiData, setApiData: cacheApiData } = useCache();
 
   const getSkeletonCount = () => {
     if (skeletonCount !== undefined) {
@@ -82,9 +84,30 @@ const TitleCard = ({
       : buildMovieUrl(category || "now_playing");
   };
 
-  // Fetch API data for carousel mode
+  // Fetch API data for carousel mode with cache
   useEffect(() => {
     if (layout === "carousel" && category) {
+      // Check cache first
+      // const cacheKey = `${mediaType}:${category}${
+      //   isKidsProfile ? ":kids" : ""
+      // }`;
+      const cachedData = getApiData(
+        mediaType,
+        `${category}${isKidsProfile ? ":kids" : ""}`
+      );
+
+      if (cachedData) {
+        setApiData(cachedData);
+        // Still fetch logos for cached data
+        cachedData.forEach((item) => {
+          if (item.id) {
+            fetchCardLogo(item.id, mediaType);
+          }
+        });
+        return;
+      }
+
+      // If not in cache, fetch from API
       const endpoint = buildEndpoint(category, mediaType);
 
       fetch(endpoint, API_CONFIG.TMDB_AUTH_HEADER)
@@ -92,6 +115,15 @@ const TitleCard = ({
         .then((res) => {
           const results = res.results || [];
           setApiData(results);
+
+          // Cache the results
+          cacheApiData(
+            mediaType,
+            `${category}${isKidsProfile ? ":kids" : ""}`,
+            results
+          );
+
+          // Fetch logos
           results.forEach((item) => {
             if (item.id) {
               fetchCardLogo(item.id, mediaType);
@@ -126,6 +158,8 @@ const TitleCard = ({
   );
 
   const renderOverlay = (card) => {
+    if (!card || !card.id) return null;
+
     const cardMediaType = card.type || mediaType;
     const details = cardDetails[card.id];
     const isHovered = hoveredCard === card.id;
